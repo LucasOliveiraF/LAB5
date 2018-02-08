@@ -124,11 +124,13 @@ public class Sistema {
 	}
 	
 	public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valorAssegurado, int custo) {
-		return cenarios.get(cenario-1).cadastrarApostaSeguraValor(apostador, valor, previsao, valorAssegurado, custo);
+		this.caixa = this.caixa + custo;
+		return cenarios.get(cenario-1).cadastrarApostaSeguraValor(apostador, valor, previsao, valorAssegurado);
 	}
 	
 	public int cadastrarApostaSeguraTaxa(int cenario, String apostador, int valor, String previsao, double taxa, int custo) {
-		return cenarios.get(cenario-1).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa, custo);
+		this.caixa = this.caixa + custo;
+		return cenarios.get(cenario-1).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa);
 	}
 	
 	public int alterarSeguroValor(int cenario, int apostaAssegurada, int valor) {

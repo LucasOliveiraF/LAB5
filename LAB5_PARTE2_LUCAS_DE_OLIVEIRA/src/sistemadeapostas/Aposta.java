@@ -14,8 +14,10 @@ public class Aposta {
 	
 	private final String ocorreu = "VAI ACONTECER";
 	private final String nOcorreu = "N VAI ACONTECER";
-	protected String apostador, previsao;
-	protected int valor;
+	private String apostador, previsao;
+	private int valor;
+	private Seguro seguro = new SemSeguro();;
+	
 	
 	/**
 	 * Constroi uma aposta pelo apostador, valor e previsao da aposta
@@ -39,7 +41,17 @@ public class Aposta {
 		this.apostador = apostador;
 		this.valor = valor;
 		this.previsao = previsao;
-		//this.previsaoBooleana = this.previsaoBooleana(previsao);
+
+	}
+	
+	public Aposta(String apostador, int valor, String previsao, int valorSeguro) throws IllegalArgumentException {
+		this(apostador, valorSeguro, previsao);
+		this.seguro = new SeguroValor(valorSeguro);
+	}
+	
+	public Aposta(String apostador, int valor, String previsao, double taxaSeguro) throws IllegalArgumentException {
+		this(apostador, valor, previsao);
+		this.seguro = new SeguroTaxa(this.valor, taxaSeguro);
 	}
 	
 	/**
@@ -63,15 +75,7 @@ public class Aposta {
 	 */
 	
 	public int getValor() {
-		return valor;
-	}
-	
-	public String getApostador() {
-		return apostador;
-	}
-
-	public String getPrevisao() {
-		return previsao;
+		return valor - this.seguro.getValorSeguro();
 	}
 
 	/**
@@ -81,7 +85,7 @@ public class Aposta {
 
 	@Override
 	public String toString() {
-		return this.apostador + " - " + this.getValorReais() + " - " + this.previsao;
+		return this.apostador + " - " + this.getValorReais() + " - " + this.previsao + this.seguro.toString();
 	}
 	
 	/**

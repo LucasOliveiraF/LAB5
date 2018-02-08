@@ -59,16 +59,16 @@ public class Cenario {
 		this.apostas.add(temp);
 	}
 	
-	public int cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorAssegurado, int custo) {
-		
-		
+	public int cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorAssegurado) {
+		Aposta temp = new Aposta(apostador, valorAssegurado, previsao, valorAssegurado);
+		this.apostas.add(temp);
 		
 		return apostas.size();
 	}
 	
-	public int cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa, int custo) {
-		
-		
+	public int cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa) {
+		Aposta temp = new Aposta(apostador, valor, previsao, taxa);
+		this.apostas.add(temp);
 		
 		return apostas.size();
 	}
