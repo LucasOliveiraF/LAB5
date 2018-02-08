@@ -123,6 +123,22 @@ public class Sistema {
 		this.cenarios.get(cenario - 1).cadastraAposta(apostador, valor, previsao);
 	}
 	
+	public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valorAssegurado, int custo) {
+		return cenarios.get(cenario-1).cadastrarApostaSeguraValor(apostador, valor, previsao, valorAssegurado, custo);
+	}
+	
+	public int cadastrarApostaSeguraTaxa(int cenario, String apostador, int valor, String previsao, double taxa, int custo) {
+		return cenarios.get(cenario-1).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa, custo);
+	}
+	
+	public int alterarSeguroValor(int cenario, int apostaAssegurada, int valor) {
+		return 0;
+	}
+	
+	public int alterarSeguroTaxa(int cenario, int apostaAssegurada, double taxa) {
+		return 0;
+	}
+	
 	/**
 	 * Retorna a soma dos valores das apostas do cenario a partir de sua posicao
 	 * @param cenario posicao do cenario na colecao
@@ -171,20 +187,21 @@ public class Sistema {
 	}
 	
 	/**
-	 * Retorna o valor em centavos da quantidade que seja adicionada no caixa (das apostas que perderam)
-	 * @param cenario posicao do cenario na colecao
-	 * @return valor em centavos da quantidade que seja adicionada no caixa
-	 * @throws Exception lanca uma excecao caso a posicao do cenario seja invalida
+	 * Retorna e adiciona a quantidade que sera adicionada no caixa do sistema
+	 * @param cenario posicao do cenario
+	 * @return Retorna a quantidade que sera adicionada no caixa do sistema
+	 * @throws Exception Exception lanca uma excecao caso a posicao do cenario seja invalida
 	 */
 	
 	public int getCaixaCenario(int cenario) throws Exception {
 		this.validaCenario(cenario, "na consulta do caixa do cenario");
 		this.validaCenarioFechado(cenario, "na consulta do caixa do cenario");
-		int valor = this.cenarios.get(cenario - 1).getValorPerdeu();
+		
 		if (!this.cenarios.get(cenario - 1).pagouCaixa())
-			this.caixa += (int) Math.floor(valor * this.taxa);
+			this.caixa += this.cenarios.get(cenario - 1).getCaixaCenario(this.taxa);
 			this.cenarios.get(cenario - 1).setPagouCaixa();
-		return (int) Math.floor(valor * this.taxa);
+		
+		return this.cenarios.get(cenario - 1).getCaixaCenario(this.taxa);
 	}
 	
 	/**
@@ -198,12 +215,7 @@ public class Sistema {
 		this.validaCenario(cenario, "na consulta do total de rateio do cenario");
 		this.validaCenarioFechado(cenario, "na consulta do total de rateio do cenario");
 		
-		if (this.cenarios.get(cenario - 1) instanceof CenarioBonus) {
-			CenarioBonus temp = (CenarioBonus) this.cenarios.get(cenario - 1);
-			return this.cenarios.get(cenario - 1).getValorPerdeu() - this.getCaixaCenario(cenario) + temp.getBonus();
-		}
-		
-		return this.cenarios.get(cenario - 1).getValorPerdeu() - this.getCaixaCenario(cenario);
+		return this.cenarios.get(cenario - 1).getTotalRateioCenario(this.taxa);
 	}
 	
 	/**

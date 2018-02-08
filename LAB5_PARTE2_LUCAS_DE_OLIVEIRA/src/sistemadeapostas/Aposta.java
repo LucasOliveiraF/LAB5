@@ -1,5 +1,7 @@
 package sistemadeapostas;
 
+import java.text.DecimalFormat;
+
 /**
  * Representao uma aposta. Toda aposta contem o nome do seu apostador, seu valor e previsao
  * 
@@ -12,8 +14,8 @@ public class Aposta {
 	
 	private final String ocorreu = "VAI ACONTECER";
 	private final String nOcorreu = "N VAI ACONTECER";
-	private String apostador, previsao;
-	private int valor;
+	protected String apostador, previsao;
+	protected int valor;
 	
 	/**
 	 * Constroi uma aposta pelo apostador, valor e previsao da aposta
@@ -47,7 +49,12 @@ public class Aposta {
 	
 	private String getValorReais() {
 		double valor = this.valor / 100.0;
-		return "R$" + Double.toString(valor);
+		
+		DecimalFormat df = new DecimalFormat("0.00");
+		String temp = df.format(valor);
+		temp = temp.replace(".",",");
+		
+		return "R$" + temp;
 	}
 	
 	/**
@@ -59,6 +66,14 @@ public class Aposta {
 		return valor;
 	}
 	
+	public String getApostador() {
+		return apostador;
+	}
+
+	public String getPrevisao() {
+		return previsao;
+	}
+
 	/**
 	 * Retorna representacao de uma aposta no formato:
 	 * APOSTADOR + VALOR EM REAIS + PREVISAO

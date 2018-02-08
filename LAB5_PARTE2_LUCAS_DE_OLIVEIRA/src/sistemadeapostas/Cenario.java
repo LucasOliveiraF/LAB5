@@ -59,6 +59,30 @@ public class Cenario {
 		this.apostas.add(temp);
 	}
 	
+	public int cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorAssegurado, int custo) {
+		
+		
+		
+		return apostas.size();
+	}
+	
+	public int cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa, int custo) {
+		
+		
+		
+		return apostas.size();
+	}
+	
+	public int alterarSeguroValor(int apostaAssegurada, int valor) {
+		
+		return 0;
+	}
+	
+	public int alterarSeguroTaxa(int apostaAssegurada, double taxa) {
+		
+		return 0;
+	}
+	
 	/**
 	 * Retorna a soma dos valores de todas as apostas cadastradas (em centavos)
 	 * @return valor inteiro da soma dos valores das apostas
@@ -133,7 +157,7 @@ public class Cenario {
 	 * @throws Exception lanca excecao no caso do cenario estar aberto
 	 */
 	
-	public int getValorPerdeu() throws Exception {
+	protected int getValorPerdeu() throws Exception {
 		
 		int valor = 0;
 		
@@ -152,6 +176,33 @@ public class Cenario {
 		} else {
 			throw new Exception("Erro na consulta do caixa do cenario: Cenario ainda esta aberto");
 		}
+		
+		return valor;
+	}
+	
+	/**
+	 * Retorna o valor que devera ser adicionado no caixa do sistema
+	 * @param taxa a taxa do caixa do sistema
+	 * @return retorna o valor que devera ser adicionado no caixa do sistema
+	 * @throws Exception lanca excecao no caso do cenario estar aberto
+	 */
+	
+	public int getCaixaCenario(double taxa) throws Exception {
+		
+		double valor = Math.floor(this.getValorPerdeu() * taxa);
+		return (int) valor;
+	}
+	
+	/**
+	 * Retorna o valor que sera distribuido entre os apostadores vencedores
+	 * @param taxa a taxa do caixa do sistema
+	 * @return valor que sera distribuido entre os apostadores vencedores
+	 * @throws Exception lanca excecao no caso do cenario estar aberto
+	 */
+	
+	public int getTotalRateioCenario(double taxa) throws Exception {
+		
+		int valor = this.getValorPerdeu() - this.getCaixaCenario(taxa);
 		
 		return valor;
 	}
@@ -187,4 +238,5 @@ public class Cenario {
 		return this.pagouCaixa;
 	}
 
+	
 }

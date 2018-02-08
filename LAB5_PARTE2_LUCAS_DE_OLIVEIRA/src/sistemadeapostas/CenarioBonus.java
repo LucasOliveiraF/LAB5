@@ -1,4 +1,5 @@
 package sistemadeapostas;
+import java.text.DecimalFormat;
 
 public class CenarioBonus extends Cenario {
 	
@@ -14,23 +15,32 @@ public class CenarioBonus extends Cenario {
 		this.bonus = bonus;
 	}
 	
-	/*@Override
-	public int getValorPerdeu() throws Exception {
-		return super.getValorPerdeu() + this.bonus;
-	}*/
-	
 	@Override
 	public String toString() {
 		return super.toString() + " - " + this.getBonusReais();
 	}
 	
-	public int getBonus() {
-		return bonus;
+	/**
+	 * Retorna o valor que sera distribuido entre os apostadores vencedores
+	 * @param taxa a taxa do caixa do sistema
+	 * @return valor que sera distribuido entre os apostadores vencedores
+	 * @throws Exception lanca excecao no caso do cenario estar aberto
+	 */
+	
+	public int getTotalRateioCenario(double taxa) throws Exception {
+		
+		int valor = super.getTotalRateioCenario(taxa) + this.bonus;
+		
+		return valor;
 	}
 	
 	private String getBonusReais() {
 		double bonus = this.bonus / 100.0;
-		return "R$" + Double.toString(bonus);
+		DecimalFormat df = new DecimalFormat("0.00");
+		String valor = df.format(bonus);
+		valor = valor.replace(".",",");
+		return "R$ " + valor;
 	}
 
+	
 }
