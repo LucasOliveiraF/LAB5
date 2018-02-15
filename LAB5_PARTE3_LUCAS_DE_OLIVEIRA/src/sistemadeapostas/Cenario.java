@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Laboratorio de Programacao II  Matheus Gaudencio
  */
 
-public class Cenario implements Comparable<Cenario> {
+public class Cenario {
 	
 	protected String descricao, estado;
 	private int identificacao;
@@ -291,12 +291,6 @@ public class Cenario implements Comparable<Cenario> {
 	
 	public int getIdentificacao() {
 		return identificacao;
-	}
-
-	@Override
-	public int compareTo(Cenario o) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	
