@@ -9,9 +9,10 @@ import java.util.ArrayList;
  * Laboratorio de Programacao II  Matheus Gaudencio
  */
 
-public class Cenario {
+public class Cenario implements Comparable<Cenario> {
 	
 	protected String descricao, estado;
+	private int identificacao;
 	protected ArrayList<Aposta> apostas;
 	private final String NL = System.lineSeparator();
 	private final String ocorreu = "Finalizado (ocorreu)";
@@ -19,18 +20,20 @@ public class Cenario {
 	protected boolean pagouCaixa = false;
 	
 	/**
-	 * Constroi um cenario a partir de sua descricao. Todo cenario eh inicializado com o estado "Nao finalizado"
+	 * Constroi um cenario a partir de sua descricao e identificacao. Todo cenario eh inicializado com o estado "Nao finalizado"
 	 * 
+	 * @param identificacao posicao do cenario na colecao no momento de seu cadastro
 	 * @param descricao descricao do cenario
 	 * @throws IllegalArgumentException lanca uma excecao caso alguns dos parametros seja invalido
 	 */
 	
-	public Cenario(String descricao) throws IllegalArgumentException {
+	public Cenario(int identificacao, String descricao) throws IllegalArgumentException {
 		
 		if (descricao.trim().isEmpty() || descricao == null) {
 			throw new IllegalArgumentException("Erro no cadastro de cenario: Descricao nao pode ser vazia");
 		}
 		
+		this.identificacao = identificacao;
 		this.descricao = descricao;
 		this.estado = "Nao finalizado";
 		this.apostas = new ArrayList<>();
@@ -270,6 +273,30 @@ public class Cenario {
 	
 	public boolean pagouCaixa() {
 		return this.pagouCaixa;
+	}
+	
+	/**
+	 * Retorna a descricao do cenario
+	 * @return descricao do cenario
+	 */
+	
+	public String getDescricao() {
+		return descricao;
+	}
+	
+	/**
+	 * Retorna a identificacao do cenario
+	 * @return identificacao do cenario
+	 */
+	
+	public int getIdentificacao() {
+		return identificacao;
+	}
+
+	@Override
+	public int compareTo(Cenario o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

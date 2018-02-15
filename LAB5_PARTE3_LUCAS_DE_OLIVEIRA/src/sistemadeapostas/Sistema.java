@@ -52,7 +52,7 @@ public class Sistema {
 	
 	public int cadastraCenario(String descricao) throws IllegalArgumentException {
 		
-		Cenario temp = new Cenario(descricao);
+		Cenario temp = new Cenario(this.cenarios.size() + 1, descricao);
 		this.cenarios.add(temp);
 		
 		return this.cenarios.size();
@@ -68,7 +68,7 @@ public class Sistema {
 	
 	public int cadastraCenario(String descricao, int bonus) throws IllegalArgumentException {
 		
-		CenarioBonus temp = new CenarioBonus(descricao, bonus);
+		CenarioBonus temp = new CenarioBonus(this.cenarios.size() + 1, descricao, bonus);
 		this.cenarios.add(temp);
 		
 		this.caixa = this.caixa - bonus;

@@ -13,15 +13,16 @@ public class CenarioBonus extends Cenario {
 	private int bonus;
 	
 	/**
-	 * Constroi um cenario a partir de sua descricao e bonus. Todo cenario eh inicializado com o estado "Nao finalizado"
+	 * Constroi um cenario a partir de sua identificacao, descricao e bonus. Todo cenario eh inicializado com o estado "Nao finalizado"
 	 * 
+	 * @param identificacao posicao do cenario na colecao no momento de seu cadastro
 	 * @param descricao descricao do cenario
 	 * @param bonus bonus do cenario a ser repassado para os ganhadores
 	 * @throws IllegalArgumentException lanca uma excecao caso alguns dos parametros seja invalido
 	 */
 	
-	public CenarioBonus(String descricao, int bonus) throws IllegalArgumentException {
-		super(descricao);
+	public CenarioBonus(int identificacao, String descricao, int bonus) throws IllegalArgumentException {
+		super(identificacao, descricao);
 		
 		if (bonus <= 0) {
 			throw new IllegalArgumentException("Erro no cadastro de cenario: Bonus invalido");
