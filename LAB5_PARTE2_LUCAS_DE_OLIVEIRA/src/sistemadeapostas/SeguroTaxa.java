@@ -12,7 +12,7 @@ public class SeguroTaxa extends Seguro {
 	
 	@Override
 	public String toString() {
-		return " - ASSEGURADA (TAXA) - " + (int) this.taxa * 100 + "%";
+		return " - ASSEGURADA (TAXA) - " + (int) (this.taxa * 100) + "%";
 	}
 
 	@Override

@@ -51,22 +51,22 @@ public class Cenario {
 	 * @param apostador nome do apostador
 	 * @param valor valor em centavos da aposta
 	 * @param previsao previsao da aposta
-	 * @throws IllegalArgumentException lanca uma excecao caso alguns dos parametros seja invalido
+	 * @throws Exception lanca uma excecao caso alguns dos parametros seja invalido
 	 */
 	
-	public void cadastraAposta(String apostador, int valor, String previsao) throws IllegalArgumentException {
+	public void cadastraAposta(String apostador, int valor, String previsao) throws Exception {
 		Aposta temp = new Aposta(apostador, valor, previsao);
 		this.apostas.add(temp);
 	}
 	
-	public int cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorAssegurado) {
-		Aposta temp = new Aposta(apostador, valorAssegurado, previsao, valorAssegurado);
+	public int cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorAssegurado) throws Exception {
+		Aposta temp = new Aposta(apostador, valor, previsao, valorAssegurado);
 		this.apostas.add(temp);
 		
 		return apostas.size();
 	}
 	
-	public int cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa) {
+	public int cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxa) throws Exception {
 		Aposta temp = new Aposta(apostador, valor, previsao, taxa);
 		this.apostas.add(temp);
 		
@@ -74,13 +74,13 @@ public class Cenario {
 	}
 	
 	public int alterarSeguroValor(int apostaAssegurada, int valor) {
-		
-		return 0;
+		this.apostas.get(apostaAssegurada-1).setSeguro(valor);
+		return apostaAssegurada;
 	}
 	
 	public int alterarSeguroTaxa(int apostaAssegurada, double taxa) {
-		
-		return 0;
+		this.apostas.get(apostaAssegurada-1).setSeguro(taxa);
+		return apostaAssegurada;
 	}
 	
 	/**

@@ -19,7 +19,7 @@ public class SeguroValor extends Seguro {
 		String temp = df.format(valor);
 		temp = temp.replace(".",",");
 		
-		return " - ASSEGURADO (VALOR) - R$ " + temp;
+		return " - ASSEGURADA (VALOR) - R$ " + temp;
 	}
 
 	@Override

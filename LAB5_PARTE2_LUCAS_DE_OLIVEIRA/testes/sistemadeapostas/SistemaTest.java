@@ -54,7 +54,7 @@ public class SistemaTest {
 		assertEquals("1 - Cenario1 - Nao finalizado", sistema.exibeCenario(1));
 		assertEquals("2 - Cenario2 - Nao finalizado", sistema.exibeCenario(2));
 		assertEquals("3 - Cenario3 - Nao finalizado", sistema.exibeCenario(3));
-		assertEquals("4 - Cenario4 - Nao finalizado - R$10.0", sistema.exibeCenario(4));
+		assertEquals("4 - Cenario4 - Nao finalizado - R$ 10,00", sistema.exibeCenario(4));
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)
@@ -72,7 +72,7 @@ public class SistemaTest {
 		assertEquals("1 - Cenario1 - Nao finalizado" + NL
 				+ "2 - Cenario2 - Nao finalizado" + NL
 				+ "3 - Cenario3 - Nao finalizado" + NL
-				+ "4 - Cenario4 - Nao finalizado - R$10.0", sistema.exibeCenarios());
+				+ "4 - Cenario4 - Nao finalizado - R$ 10,00", sistema.exibeCenarios());
 		
 		Sistema sistemavazio = new Sistema();
 		sistemavazio.inicializa(0, 0.1);
@@ -145,9 +145,9 @@ public class SistemaTest {
 		sistema.cadastrarAposta(1, "Lucas", 10000, "VAI ACONTECER");
 		sistema.cadastrarAposta(1, "Carla", 20000, "VAI ACONTECER");
 		sistema.cadastrarAposta(1, "Paula", 30000, "N VAI ACONTECER");
-		assertEquals("Lucas - R$100.0 - VAI ACONTECER" + NL
-				+ "Carla - R$200.0 - VAI ACONTECER" + NL
-				+ "Paula - R$300.0 - N VAI ACONTECER", sistema.exibeApostas(1));
+		assertEquals("Lucas - R$100,00 - VAI ACONTECER" + NL
+				+ "Carla - R$200,00 - VAI ACONTECER" + NL
+				+ "Paula - R$300,00 - N VAI ACONTECER", sistema.exibeApostas(1));
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)

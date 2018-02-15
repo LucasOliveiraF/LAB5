@@ -123,22 +123,24 @@ public class Sistema {
 		this.cenarios.get(cenario - 1).cadastraAposta(apostador, valor, previsao);
 	}
 	
-	public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valorAssegurado, int custo) {
+	public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valorAssegurado, int custo) throws Exception {
+		this.validaCenario(cenario, "no cadastro de aposta assegurada por valor");
 		this.caixa = this.caixa + custo;
 		return cenarios.get(cenario-1).cadastrarApostaSeguraValor(apostador, valor, previsao, valorAssegurado);
 	}
 	
-	public int cadastrarApostaSeguraTaxa(int cenario, String apostador, int valor, String previsao, double taxa, int custo) {
+	public int cadastrarApostaSeguraTaxa(int cenario, String apostador, int valor, String previsao, double taxa, int custo) throws Exception {
+		this.validaCenario(cenario, "no cadastro de aposta assegurada por taxa");
 		this.caixa = this.caixa + custo;
 		return cenarios.get(cenario-1).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa);
 	}
 	
 	public int alterarSeguroValor(int cenario, int apostaAssegurada, int valor) {
-		return 0;
+		return this.cenarios.get(cenario-1).alterarSeguroTaxa(apostaAssegurada, valor);
 	}
 	
 	public int alterarSeguroTaxa(int cenario, int apostaAssegurada, double taxa) {
-		return 0;
+		return this.cenarios.get(cenario-1).alterarSeguroTaxa(apostaAssegurada, taxa);
 	}
 	
 	/**
@@ -199,9 +201,11 @@ public class Sistema {
 		this.validaCenario(cenario, "na consulta do caixa do cenario");
 		this.validaCenarioFechado(cenario, "na consulta do caixa do cenario");
 		
-		if (!this.cenarios.get(cenario - 1).pagouCaixa())
-			this.caixa += this.cenarios.get(cenario - 1).getCaixaCenario(this.taxa);
+		if (!this.cenarios.get(cenario - 1).pagouCaixa()) {
 			this.cenarios.get(cenario - 1).setPagouCaixa();
+			this.caixa += this.cenarios.get(cenario - 1).getCaixaCenario(this.taxa);
+		}
+			
 		
 		return this.cenarios.get(cenario - 1).getCaixaCenario(this.taxa);
 	}
