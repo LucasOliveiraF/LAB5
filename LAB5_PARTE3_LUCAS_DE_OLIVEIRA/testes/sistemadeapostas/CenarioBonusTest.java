@@ -10,7 +10,7 @@ public class CenarioBonusTest {
 	
 	@org.junit.Before
 	public void Before() throws Exception {
-		teste = new CenarioBonus("Teste de cenario", 1000);
+		teste = new CenarioBonus(1, "Teste de cenario", 1000);
 		teste.cadastrarApostaSeguraValor("Apostador1", 100000, "VAI ACONTECER", 20000);
 		teste.cadastrarApostaSeguraTaxa("Apostador2", 10000, "N VAI ACONTECER", 0.05);
 	}

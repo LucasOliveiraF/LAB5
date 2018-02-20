@@ -12,7 +12,7 @@ public class CenarioTest {
 	
 	@Before
 	public void Before() throws Exception {
-		cenario = new Cenario("Nenhum aluno reprovou P2");
+		cenario = new Cenario(1, "Nenhum aluno reprovou P2");
 		cenario.cadastraAposta("Lucas", 20000, "N VAI ACONTECER");
 		cenario.cadastraAposta("Anonimo", 199, "N VAI ACONTECER");
 		cenario.cadastraAposta("Matheus", 10000, "VAI ACONTECER");
@@ -37,17 +37,17 @@ public class CenarioTest {
 	
 	@Test(expected=Exception.class)
 	public void descricaoVazia() throws Exception {
-		Cenario cenario = new Cenario("  ");
+		Cenario cenario = new Cenario(1, "  ");
 	}
 	
 	@Test(expected=Exception.class)
 	public void descricaoNula() throws Exception {
-		Cenario cenario = new Cenario(null);
+		Cenario cenario = new Cenario(1, null);
 	}
 	
 	@Test(expected=Exception.class)
 	public void nenhumaApostaTest() throws Exception {
-		Cenario cenario = new Cenario("Cenario");
+		Cenario cenario = new Cenario(1, "Cenario");
 		cenario.exibeApostas();
 	}
 	
@@ -67,7 +67,7 @@ public class CenarioTest {
 	
 	@Test
 	public void cenarioBonusTest() throws Exception {
-		Cenario cenario = new CenarioBonus("Cenario Teste", 100);
+		Cenario cenario = new CenarioBonus(1, "Cenario Teste", 100);
 		cenario.cadastraAposta("Apostador1", 1000, "VAI ACONTECER");
 		cenario.cadastrarApostaSeguraTaxa("Apostador2", 900, "N VAI ACONTECER", 0.1);
 		cenario.cadastrarApostaSeguraValor("Apostador3", 2000, "VAI ACONTECER", 300);
@@ -83,7 +83,7 @@ public class CenarioTest {
 		assertEquals("Cenario Teste - Finalizado (ocorreu) - R$ 1,00", cenario.toString());
 		assertEquals(9, cenario.getCaixaCenario(0.01));
 		assertEquals(991, cenario.getTotalRateioCenario(0.01));
-		//System.out.println(cenario.getValorSeguros());
+		
 	}
 
 }

@@ -33,10 +33,10 @@ public class SistemaTest {
 	
 	@org.junit.Before
 	public void cadastraCenarioTest() {
-		assertEquals(1, sistema.cadastraCenario("Cenario1"));
-		assertEquals(2, sistema.cadastraCenario("Cenario2"));
-		assertEquals(3, sistema.cadastraCenario("Cenario3"));
-		assertEquals(4, sistema.cadastraCenario("Cenario4", 1000));
+		assertEquals(1, sistema.cadastraCenario("Cenario4"));
+		assertEquals(2, sistema.cadastraCenario("Cenario3"));
+		assertEquals(3, sistema.cadastraCenario("Cenario2"));
+		assertEquals(4, sistema.cadastraCenario("Cenario1", 1000));
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -51,10 +51,10 @@ public class SistemaTest {
 	
 	@Test
 	public void exibeCenarioTest() {
-		assertEquals("1 - Cenario1 - Nao finalizado", sistema.exibeCenario(1));
-		assertEquals("2 - Cenario2 - Nao finalizado", sistema.exibeCenario(2));
-		assertEquals("3 - Cenario3 - Nao finalizado", sistema.exibeCenario(3));
-		assertEquals("4 - Cenario4 - Nao finalizado - R$ 10,00", sistema.exibeCenario(4));
+		assertEquals("1 - Cenario4 - Nao finalizado", sistema.exibeCenario(1));
+		assertEquals("2 - Cenario3 - Nao finalizado", sistema.exibeCenario(2));
+		assertEquals("3 - Cenario2 - Nao finalizado", sistema.exibeCenario(3));
+		assertEquals("4 - Cenario1 - Nao finalizado - R$ 10,00", sistema.exibeCenario(4));
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)
@@ -68,11 +68,11 @@ public class SistemaTest {
 	}
 	
 	@Test
-	public void exibeCenarios() {
-		assertEquals("1 - Cenario1 - Nao finalizado" + NL
-				+ "2 - Cenario2 - Nao finalizado" + NL
-				+ "3 - Cenario3 - Nao finalizado" + NL
-				+ "4 - Cenario4 - Nao finalizado - R$ 10,00", sistema.exibeCenarios());
+	public void exibeCenarios() throws Exception {
+		assertEquals("1 - Cenario4 - Nao finalizado" + NL
+				+ "2 - Cenario3 - Nao finalizado" + NL
+				+ "3 - Cenario2 - Nao finalizado" + NL
+				+ "4 - Cenario1 - Nao finalizado - R$ 10,00", sistema.exibeCenarios());
 		
 		Sistema sistemavazio = new Sistema();
 		sistemavazio.inicializa(0, 0.1);
@@ -216,6 +216,13 @@ public class SistemaTest {
 	@Test(expected=Exception.class)
 	public void getTotalRateioCenarioAberto() throws Exception {
 		sistema.getTotalRateioCenario(2);
+	}
+	
+	@Test
+	public void alteraOrdem() throws Exception {
+		this.sistema.alteraOrdem("NOME");
+		assertEquals("4 - Cenario1 - Nao finalizado - R$ 10,00", this.sistema.exibirCenarioOrdenado(1));
+
 	}
 	
 }

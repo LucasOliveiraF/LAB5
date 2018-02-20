@@ -1,6 +1,11 @@
 package sistemadeapostas;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import ordenacao.OrdenaCadastro;
+import ordenacao.OrdenaNApostas;
+import ordenacao.OrdenaNome;
 
 /**
  * Representa do controlador do sistema de apostas, contem o caixa e a taxa do sistema e os metodos que manipulam cenarios e apostas.
@@ -15,6 +20,8 @@ public class Sistema {
 	private double taxa;
 	private ArrayList<Cenario> cenarios;
 	private final String NL = System.lineSeparator();
+	private String ordenacao = "CADASTRO";
+	private int id = 0;
 	
 	/**
 	 * Inicializa o sistema apartir do valor em centavos do caixa e da taxa do sistema
@@ -85,7 +92,7 @@ public class Sistema {
 	
 	public String exibeCenario(int cenario) throws IndexOutOfBoundsException {
 		validaCenario(cenario, "na consulta de cenario");
-		return cenario + " - " + cenarios.get(cenario - 1).toString();
+		return cenario + " - " + this.getCenario(cenario).toString();
 	}
 	
 	/**
@@ -93,7 +100,8 @@ public class Sistema {
 	 * @return retorna a representacao textual de todos os cenarios cadastrados (um por linha)
 	 */
 	
-	public String exibeCenarios() {
+	public String exibeCenarios() throws Exception {
+		this.alteraOrdem("CADASTRO");
 		
 		String retorno;
 		
@@ -106,7 +114,10 @@ public class Sistema {
 			retorno += (i + 1) + " - " + cenarios.get(i).toString() + NL;
 		}
 		
+		this.alteraOrdem(ordenacao);
+		
 		return retorno.trim();
+		
 	}
 	
 	/**
@@ -120,7 +131,7 @@ public class Sistema {
 	
 	public void cadastrarAposta(int cenario, String apostador, int valor, String previsao) throws Exception {
 		this.validaCenario(cenario, "no cadastro de aposta");
-		this.cenarios.get(cenario - 1).cadastraAposta(apostador, valor, previsao);
+		this.getCenario(cenario).cadastraAposta(apostador, valor, previsao);
 	}
 	
 	/**
@@ -138,7 +149,7 @@ public class Sistema {
 	public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valorAssegurado, int custo) throws Exception {
 		this.validaCenario(cenario, "no cadastro de aposta assegurada por valor");
 		this.caixa = this.caixa + custo;
-		return cenarios.get(cenario-1).cadastrarApostaSeguraValor(apostador, valor, previsao, valorAssegurado);
+		return this.getCenario(cenario).cadastrarApostaSeguraValor(apostador, valor, previsao, valorAssegurado);
 	}
 	
 	/**
@@ -156,7 +167,7 @@ public class Sistema {
 	public int cadastrarApostaSeguraTaxa(int cenario, String apostador, int valor, String previsao, double taxa, int custo) throws Exception {
 		this.validaCenario(cenario, "no cadastro de aposta assegurada por taxa");
 		this.caixa = this.caixa + custo;
-		return cenarios.get(cenario-1).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa);
+		return this.getCenario(cenario).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa);
 	}
 	
 	/**
@@ -168,7 +179,7 @@ public class Sistema {
 	 */
 	
 	public int alterarSeguroValor(int cenario, int apostaAssegurada, int valor) {
-		return this.cenarios.get(cenario-1).alterarSeguroTaxa(apostaAssegurada, valor);
+		return this.getCenario(cenario).alterarSeguroTaxa(apostaAssegurada, valor);
 	}
 	
 	/**
@@ -180,7 +191,7 @@ public class Sistema {
 	 */
 	
 	public int alterarSeguroTaxa(int cenario, int apostaAssegurada, double taxa) {
-		return this.cenarios.get(cenario-1).alterarSeguroTaxa(apostaAssegurada, taxa);
+		return this.getCenario(cenario).alterarSeguroTaxa(apostaAssegurada, taxa);
 	}
 	
 	/**
@@ -192,7 +203,7 @@ public class Sistema {
 	
 	public int valorTotalDeApostas(int cenario) throws IndexOutOfBoundsException {
 		this.validaCenario(cenario, "na consulta do valor total de apostas");
-		return this.cenarios.get(cenario - 1).valorTotalDeApostas();
+		return this.getCenario(cenario).valorTotalDeApostas();
 	}
 	
 	/**
@@ -203,7 +214,7 @@ public class Sistema {
 	
 	public int totalDeApostas(int cenario) {
 		this.validaCenario(cenario, "na consulta do total de apostas");
-		return this.cenarios.get(cenario - 1).totalDeApostas();
+		return this.getCenario(cenario).totalDeApostas();
 	}
 	
 	/**
@@ -215,7 +226,7 @@ public class Sistema {
 	
 	public String exibeApostas(int cenario) throws Exception {
 		validaCenario(cenario, "na consulta de aposta");
-		return this.cenarios.get(cenario - 1).exibeApostas();
+		return this.getCenario(cenario).exibeApostas();
 	}
 	
 	/**
@@ -227,7 +238,7 @@ public class Sistema {
 	
 	public void fecharAposta(int cenario, boolean ocorreu) throws Exception {
 		validaCenario(cenario, "ao fechar aposta");
-		this.cenarios.get(cenario - 1).fecharAposta(ocorreu);
+		this.getCenario(cenario).fecharAposta(ocorreu);
 	}
 	
 	/**
@@ -241,13 +252,13 @@ public class Sistema {
 		this.validaCenario(cenario, "na consulta do caixa do cenario");
 		this.validaCenarioFechado(cenario, "na consulta do caixa do cenario");
 		
-		if (!this.cenarios.get(cenario - 1).pagouCaixa()) {
-			this.cenarios.get(cenario - 1).setPagouCaixa();
-			this.caixa += this.cenarios.get(cenario - 1).getCaixaCenario(this.taxa);
+		if (!this.getCenario(cenario).pagouCaixa()) {
+			this.getCenario(cenario).setPagouCaixa();
+			this.caixa += this.getCenario(cenario).getCaixaCenario(this.taxa);
 		}
 			
 		
-		return this.cenarios.get(cenario - 1).getCaixaCenario(this.taxa);
+		return this.getCenario(cenario).getCaixaCenario(this.taxa);
 	}
 	
 	/**
@@ -261,7 +272,7 @@ public class Sistema {
 		this.validaCenario(cenario, "na consulta do total de rateio do cenario");
 		this.validaCenarioFechado(cenario, "na consulta do total de rateio do cenario");
 		
-		return this.cenarios.get(cenario - 1).getTotalRateioCenario(this.taxa);
+		return this.getCenario(cenario).getTotalRateioCenario(this.taxa);
 	}
 	
 	/**
@@ -271,7 +282,7 @@ public class Sistema {
 	 * @throws IndexOutOfBoundsException lanca uma excecao caso a posicao do cenario seja invalida
 	 */
 	
-	public void validaCenario(int cenario, String msg) throws IndexOutOfBoundsException {
+	private void validaCenario(int cenario, String msg) throws IndexOutOfBoundsException {
 		if (cenario <= 0)
 			throw new IndexOutOfBoundsException("Erro " + msg + ": Cenario invalido");
 		if (cenario > cenarios.size())
@@ -285,9 +296,63 @@ public class Sistema {
 	 * @throws Exception lanca uma excecao caso o cenario esteja aberto
 	 */
 	
-	public void validaCenarioFechado(int cenario, String msg) throws Exception {
-		if (!this.cenarios.get(cenario - 1).estaFinalizado())
+	private void validaCenarioFechado(int cenario, String msg) throws Exception {
+		if (!this.getCenario(cenario).estaFinalizado())
 			throw new Exception("Erro " + msg + ": Cenario ainda esta aberto");
+	}
+	
+	/**
+	 * Altera a ordem em que os cenarios estao posicionados na colecao
+	 * @param ordem tipo de ordenacao
+	 * @throws Exception lanca uma excecao caso o parametro de ordem seja invalido
+	 */
+	
+	public void alteraOrdem(String ordem) throws Exception {
+		
+		if (ordem.trim().isEmpty())
+			throw new IllegalArgumentException("Erro ao alterar ordem: Ordem nao pode ser vazia ou nula");
+		
+		if (ordem.equalsIgnoreCase("NOME")) {
+			Collections.sort(this.cenarios, new OrdenaNome());			
+		} else if (ordem.equalsIgnoreCase("CADASTRO")) {
+			Collections.sort(this.cenarios, new OrdenaCadastro());
+		} else if (ordem.equalsIgnoreCase("APOSTAS")) {
+			Collections.sort(this.cenarios, new OrdenaNApostas());
+		} else {
+			throw new IllegalArgumentException("Erro ao alterar ordem: Ordem invalida");
+		}
+		
+		this.ordenacao = ordem;
+		
+	}
+	
+	/**
+	 * Exibe o cenario que esta na posicao desejada na colecao
+	 * @param cenario posicao do cenario na colecao
+	 * @return retorna a representacao textual do cenario
+	 * @throws Exception lanca uma excecao caso a posicao do cenario seja invalida
+	 */
+	
+	public String exibirCenarioOrdenado(int cenario) throws Exception {
+		this.validaCenario(cenario, "na consulta de cenario ordenado");
+		return this.cenarios.get(cenario - 1).getIdentificacao() + " - " + this.cenarios.get(cenario - 1).toString();
+		
+	}
+	
+	/**
+	 * Retorna um cenario com a identificacao passada como parametro
+	 * @param id identificacao do cenario
+	 * @return cenario com a identificacao passada como parametro
+	 */
+	
+	private Cenario getCenario(int id) {
+		for (Cenario cenario : cenarios) {
+			if (cenario.getIdentificacao() == id)
+				return cenario;
+		}
+		
+		return null;
+		
 	}
 	
 }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Cenario {
 	
 	protected String descricao, estado;
-	private int identificacao;
+	protected int identificacao;
 	protected ArrayList<Aposta> apostas;
 	private final String NL = System.lineSeparator();
 	private final String ocorreu = "Finalizado (ocorreu)";

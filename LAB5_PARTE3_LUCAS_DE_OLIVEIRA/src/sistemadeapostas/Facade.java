@@ -35,7 +35,7 @@ public class Facade {
 		return sistema.exibeCenario(cenario);
 	}
 	
-	public String exibirCenarios() {
+	public String exibirCenarios() throws Exception {
 		return sistema.exibeCenarios();
 	}
 	
@@ -81,6 +81,14 @@ public class Facade {
 	
 	public int getTotalRateioCenario(int cenario) throws Exception {
 		return sistema.getTotalRateioCenario(cenario);
+	}
+	
+	public void alterarOrdem(String ordem) throws Exception {
+		sistema.alteraOrdem(ordem);
+	}
+	
+	public String exibirCenarioOrdenado(int cenario) throws Exception {
+		return sistema.exibirCenarioOrdenado(cenario);
 	}
 
 }
