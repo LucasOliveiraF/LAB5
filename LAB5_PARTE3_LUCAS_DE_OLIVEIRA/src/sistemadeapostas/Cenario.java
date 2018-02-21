@@ -216,6 +216,7 @@ public class Cenario {
 		
 		return valor;
 	}
+
 	
 	/**
 	 * Retorna o valor que devera ser adicionado no caixa do sistema

@@ -12,7 +12,7 @@ public class SistemaTest {
 	@org.junit.Before
 	public void Before() {
 		sistema = new Sistema();
-		sistema.inicializa(0, 0.1);
+		sistema.inicializa(1000, 0.1);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -36,7 +36,7 @@ public class SistemaTest {
 		assertEquals(1, sistema.cadastraCenario("Cenario4"));
 		assertEquals(2, sistema.cadastraCenario("Cenario3"));
 		assertEquals(3, sistema.cadastraCenario("Cenario2"));
-		assertEquals(4, sistema.cadastraCenario("Cenario1", 1000));
+		assertEquals(4, sistema.cadastraCenario("Cenario1", 500));
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -54,7 +54,7 @@ public class SistemaTest {
 		assertEquals("1 - Cenario4 - Nao finalizado", sistema.exibeCenario(1));
 		assertEquals("2 - Cenario3 - Nao finalizado", sistema.exibeCenario(2));
 		assertEquals("3 - Cenario2 - Nao finalizado", sistema.exibeCenario(3));
-		assertEquals("4 - Cenario1 - Nao finalizado - R$ 10,00", sistema.exibeCenario(4));
+		assertEquals("4 - Cenario1 - Nao finalizado - R$ 5,00", sistema.exibeCenario(4));
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)
@@ -72,7 +72,7 @@ public class SistemaTest {
 		assertEquals("1 - Cenario4 - Nao finalizado" + NL
 				+ "2 - Cenario3 - Nao finalizado" + NL
 				+ "3 - Cenario2 - Nao finalizado" + NL
-				+ "4 - Cenario1 - Nao finalizado - R$ 10,00", sistema.exibeCenarios());
+				+ "4 - Cenario1 - Nao finalizado - R$ 5,00", sistema.exibeCenarios());
 		
 		Sistema sistemavazio = new Sistema();
 		sistemavazio.inicializa(0, 0.1);
@@ -172,9 +172,9 @@ public class SistemaTest {
 		sistema.cadastrarAposta(1, "Paula", 30000, "N VAI ACONTECER");
 		sistema.fecharAposta(1, true);
 		assertEquals(3000, sistema.getCaixaCenario(1));
-		assertEquals(2000, sistema.getCaixa());
+		assertEquals(3500, sistema.getCaixa());
 		assertEquals(3000, sistema.getCaixaCenario(1));
-		assertEquals(2000, sistema.getCaixa());
+		assertEquals(3500, sistema.getCaixa());
 		assertEquals(27000, sistema.getTotalRateioCenario(1));
 	}
 	
@@ -221,8 +221,23 @@ public class SistemaTest {
 	@Test
 	public void alteraOrdem() throws Exception {
 		this.sistema.alteraOrdem("NOME");
-		assertEquals("4 - Cenario1 - Nao finalizado - R$ 10,00", this.sistema.exibirCenarioOrdenado(1));
-
+		assertEquals("4 - Cenario1 - Nao finalizado - R$ 5,00", this.sistema.exibirCenarioOrdenado(1));
+	}
+	
+	@Test
+	public void apostaSeguroTest() throws Exception {
+		System.out.println(sistema.exibeCenarios() + NL);
+		sistema.cadastrarAposta(4, "Bartolomeu", 10000, "N VAI ACONTECER");
+		System.out.println("Caixa: " + sistema.getCaixa());
+		sistema.cadastrarApostaSeguraTaxa(4, "Ignacio", 200000, "N VAI ACONTECER", 0.1, 5000);
+		System.out.println("Caixa: " + sistema.getCaixa());
+		sistema.cadastrarApostaSeguraValor(4, "Erivaldo", 50000, "N VAI ACONTECER", 10000, 5000);
+		System.out.println("Caixa: " + sistema.getCaixa());
+		sistema.fecharAposta(4, true);
+		System.out.println("Caixa: " + sistema.getCaixa());
+		System.out.println(NL + sistema.exibeCenarios() + NL);
+		System.out.println(sistema.getCaixaCenario(4));
+		System.out.println("Caixa: " + sistema.getCaixa());
 	}
 	
 }
